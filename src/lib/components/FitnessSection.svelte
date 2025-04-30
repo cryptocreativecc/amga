@@ -109,23 +109,12 @@
             </div>
           </div>
 
-          <div class="view-more-container">
-            <a href="https://hevy.com/user/bwdc" target="_blank" rel="noopener noreferrer" class="view-more-button">
-              <i class="fa-solid fa-dumbbell"></i> View profile on Hevy
-            </a>
-          </div>
-
-          <div class="download-app">
-            <p>Track your workouts with Hevy</p>
-            <div class="app-buttons">
-              <a href="https://hevyapp.app.link/1TLxztjk2db" target="_blank" rel="noopener noreferrer" class="app-button">
-                <i class="fa-brands fa-apple"></i> App Store
-              </a>
-              <a href="https://hevyapp.app.link/d1yXlPlk2db" target="_blank" rel="noopener noreferrer" class="app-button">
-                <i class="fa-brands fa-google-play"></i> Google Play
-              </a>
-            </div>
-          </div>
+        </div>
+        
+        <div class="view-more-container">
+          <a href="https://hevy.com/user/bwdc" target="_blank" rel="noopener noreferrer" class="view-more-button">
+            <i class="fa-solid fa-dumbbell"></i> View profile on Hevy
+          </a>
         </div>
       {/if}
     </div>
