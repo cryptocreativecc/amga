@@ -74,7 +74,7 @@
           <span>Connected with <i class="fa-solid fa-dumbbell"></i> Hevy</span>
         </div>
 
-        <div class="hevy-profile">
+        <div class="hevy-profile mb-6">
           <div class="profile-header">
             <div class="profile-image">
               <i class="fa-solid fa-dumbbell profile-icon"></i>
