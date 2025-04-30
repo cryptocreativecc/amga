@@ -1,0 +1,23 @@
+@import 'tailwindcss';
+@plugin '@tailwindcss/forms';
+@plugin '@tailwindcss/typography';
+@plugin "daisyui" {
+  themes: light --default, dark --prefersdark, cupcake;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+*{
+  font-family: "Quicksand", sans-serif;
+} 
+
+h1, h2, h3 .cabin{
+  font-family: "Cabin", sans-serif;
+}
+
+span {
+  font-family:inherit;
+  font-weight: inherit;
+}
