@@ -133,7 +133,7 @@
 <SectionWrapper id="fitness" title="Fitness">
   <div class="max-w-[1200px] mx-auto w-full py-2 mb-10">
     <div class="fitness-container">
-      <h2 class="text-2xl md:text-3xl font-semibold mb-3">My <span class="text-green-400">Workouts</span></h2>
+      <h2 class="text-2xl md:text-3xl font-semibold mb-3">Activity <span class="text-green-400">Logs</span></h2>
       <p class="text-lg md:text-xl w-full mb-2">
         I enjoy staying active to boost my mental health through various outdoor activities and exercise. Whether I'm swimming laps at the pool, lifting weights at the gym, hiking scenic trails, or cycling through different routes, keeping my body moving helps maintain my mental wellbeing. 
       </p>
@@ -282,10 +282,8 @@
         {#if workouts.length > 0}
           <div class="view-more-button-container">
             <a href="https://hevyapp.com/user/yourprofile" target="_blank" rel="noopener noreferrer" class="view-more-button">
-              View more workouts
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-                <path d="M8 0a8 8 0 1 1 0 16A8 8 0 0 1 8 0zM4.5 7.5a.5.5 0 0 0 0 1h5.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5H4.5z"/>
-              </svg>
+              View more workouts on Hevy
+              <HevyIcon class="hevy-icon" />
             </a>
           </div>
         {/if}
@@ -343,14 +341,6 @@
     border-radius: 50%;
     margin-right: 0.5rem;
     animation: pulse 2s infinite;
-  }
-  
-  .hevy-icon {
-    width: 14px;
-    height: 14px;
-    margin: 0 0.25rem;
-    display: inline-block;
-    vertical-align: middle;
   }
   
   @keyframes pulse {
