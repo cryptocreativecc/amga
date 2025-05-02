@@ -211,7 +211,7 @@
                   <div class="space-y-4">
                     {#each workout.exercises as exercise}
                       <div class="border border-gray-200 rounded-md p-3">
-                        <h5 class="font-medium text-gray-800">{exercise.title}</h5>
+                        <h5 class="font-bold text-gray-800">{exercise.title}</h5>
                         
                         {#if exercise.sets && exercise.sets.length > 0}
                           <div class="mt-2 grid grid-cols-3 gap-2">
@@ -232,7 +232,7 @@
                                 {:else}
                                   <!-- For non-walking exercises, show all metrics -->
                                   <div class="flex items-center gap-2 ml-auto">
-                                    <span>{set.weight_kg || 0}kg × {set.reps || 0}</span>
+                                    <span class="font-semibold">{set.weight_kg || 0}kg × {set.reps || 0}</span>
                                     {#if set.duration_seconds}
                                       <span class="text-xs flex items-center">
                                         <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
