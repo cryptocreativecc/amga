@@ -2,6 +2,7 @@
   import { onMount } from 'svelte';
   import SectionWrapper from '$lib/components/SectionWrapper.svelte';
   import HevyIcon from '$lib/icons/heavy-icon.svelte';
+  import WeightTrainingIcon from '$lib/icons/fitness/weight-training-icon.svelte';
 
   let workouts = [];
   let isLoading = true;
@@ -212,7 +213,7 @@
                     {#each workout.exercises as exercise}
                       <div class="border border-gray-200 rounded-md p-3">
                         <h5 class="font-bold text-gray-800">{exercise.title}</h5>
-                        
+                        <WeightTrainingIcon />
                         {#if exercise.sets && exercise.sets.length > 0}
                           <div class="mt-2 grid grid-cols-1 gap-2">
                             {#each exercise.sets as set}
