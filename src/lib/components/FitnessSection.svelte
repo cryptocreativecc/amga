@@ -1,6 +1,7 @@
 <script>
   import { onMount } from 'svelte';
   import SectionWrapper from '$lib/components/SectionWrapper.svelte';
+  import HevyIcon from '$lib/icons/heavy-icon.svelte';
 
   let workouts = [];
   let isLoading = true;
@@ -133,9 +134,13 @@
   <div class="max-w-[1200px] mx-auto w-full py-2 mb-10">
     <div class="fitness-container">
       <h2 class="text-2xl md:text-3xl font-semibold mb-3">My <span class="text-green-400">Workouts</span></h2>
-      <p class="text-lg md:text-xl w-full mb-6">
+      <p class="text-lg md:text-xl w-full mb-2">
         I enjoy staying active to boost my mental health through various outdoor activities and exercise. Whether I'm swimming laps at the pool, lifting weights at the gym, hiking scenic trails, or cycling through different routes, keeping my body moving helps maintain my mental wellbeing. 
       </p>
+      <div class="live-indicator">
+        <div class="pulse-circle"></div>
+        <span>Live from <HevyIcon class="hevy-icon" /> Hevy</span>
+      </div>
       
       {#if isLoading}
         <div class="flex justify-center items-center h-40">
@@ -320,5 +325,43 @@
   
   .view-more-button svg {
     margin-top: 1px;
+  }
+  
+  .live-indicator {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1.5rem;
+    font-size: 0.9rem;
+    color: #fff;
+  }
+  
+  .pulse-circle {
+    width: 10px;
+    height: 10px;
+    background-color: #2ea44f;
+    border-radius: 50%;
+    margin-right: 0.5rem;
+    animation: pulse 2s infinite;
+  }
+  
+  .hevy-icon {
+    width: 16px;
+    height: 16px;
+    margin: 0 0.25rem;
+    display: inline-block;
+    vertical-align: middle;
+  }
+  
+  @keyframes pulse {
+    0% {
+      box-shadow: 0 0 0 0 rgba(46, 164, 79, 0.7);
+    }
+    70% {
+      box-shadow: 0 0 0 10px rgba(46, 164, 79, 0);
+    }
+    100% {
+      box-shadow: 0 0 0 0 rgba(46, 164, 79, 0);
+    }
   }
 </style>
