@@ -212,8 +212,10 @@
                   <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                     {#each workout.exercises as exercise}
                       <div class="border border-gray-200 rounded-md p-3">
-                        <h5 class="font-bold text-gray-800">{exercise.title}</h5>
-                        <WeightTrainingIcon />
+                        <div class="flex items-center gap-2 mb-2">
+                          <WeightTrainingIcon />
+                          <h5 class="font-bold text-gray-800">{exercise.title}</h5>
+                        </div>
                         {#if exercise.sets && exercise.sets.length > 0}
                           <div class="mt-2 grid grid-cols-1 gap-2">
                             {#each exercise.sets as set}
