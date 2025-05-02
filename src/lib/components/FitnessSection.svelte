@@ -216,13 +216,13 @@
                         {#if exercise.sets && exercise.sets.length > 0}
                           <div class="mt-2 grid grid-cols-3 gap-2">
                             {#each exercise.sets as set}
-                              <div class="rounded p-2 text-sm {getSetTypeColor(set.type)}">
+                              <div class="rounded p-2 text-sm {getSetTypeColor(set.type)} flex justify-between items-center">
                                 <span class="capitalize font-medium">{set.type || 'Set'}</span>
                                 
                                 {#if exercise.title.toLowerCase().includes('walking')}
                                   <!-- For walking exercises, only show time -->
                                   {#if set.duration_seconds}
-                                    <div class="text-xs mt-1 flex items-center">
+                                    <div class="text-xs flex items-center">
                                       <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                                       </svg>
@@ -231,35 +231,36 @@
                                   {/if}
                                 {:else}
                                   <!-- For non-walking exercises, show all metrics -->
-                                  <div class="flex justify-between mt-1">
-                                    <span>{set.weight_kg || 0}kg</span>
-                                    <span>×{set.reps || 0}</span>
+                                  <div class="flex items-center gap-2">
+                                    <span>{set.weight_kg || 0}kg × {set.reps || 0}</span>
+                                    {#if set.duration_seconds}
+                                      <span class="text-xs flex items-center">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                        </svg>
+                                        {formatDuration(set.duration_seconds)}
+                                      </span>
+                                    {/if}
                                   </div>
-                                  {#if set.duration_seconds}
-                                    <div class="text-xs mt-1 flex items-center">
+                                {/if}
+                                <div class="flex items-center gap-2">
+                                  {#if set.distance_meters}
+                                    <span class="text-xs flex items-center">
                                       <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
                                       </svg>
-                                      {formatDuration(set.duration_seconds)}
-                                    </div>
+                                      {set.distance_meters}m
+                                    </span>
                                   {/if}
-                                {/if}
-                                {#if set.distance_meters}
-                                  <div class="text-xs mt-1 flex items-center">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
-                                    </svg>
-                                    {set.distance_meters}m
-                                  </div>
-                                {/if}
-                                {#if set.rpe}
-                                  <div class="text-xs mt-1 flex items-center">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
-                                    </svg>
-                                    RPE: {set.rpe}
-                                  </div>
-                                {/if}
+                                  {#if set.rpe}
+                                    <span class="text-xs flex items-center">
+                                      <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                                      </svg>
+                                      RPE: {set.rpe}
+                                    </span>
+                                  {/if}
+                                </div>
                               </div>
                             {/each}
                           </div>
