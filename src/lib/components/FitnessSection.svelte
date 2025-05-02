@@ -1,5 +1,6 @@
 <script>
   import { onMount } from 'svelte';
+  import SectionWrapper from '$lib/components/SectionWrapper.svelte';
 
   let workouts = [];
   let isLoading = true;
@@ -132,9 +133,13 @@
   });
 </script>
 
-<section class="py-10 bg-gray-50">
-  <div class="container mx-auto px-4">
-    <h2 class="text-3xl font-bold text-center mb-10">My Workouts</h2>
+<SectionWrapper id="fitness" title="Fitness">
+  <div class="max-w-[1200px] mx-auto w-full py-2 mb-10">
+    <div class="fitness-container">
+      <h2 class="text-2xl md:text-3xl font-semibold mb-3">My <span class="text-green-400">Workouts</span></h2>
+      <p class="text-lg md:text-xl w-full mb-6">
+        Track my fitness journey and recent workout routines.
+      </p>
     
     {#if isLoading}
       <div class="flex justify-center items-center h-40">
@@ -266,6 +271,52 @@
           </button>
         </div>
       {/if}
-    {/if}
+      
+      <!-- View More Workouts Button -->
+      {#if workouts.length > 0}
+        <div class="view-more-button-container">
+          <a href="https://hevyapp.com/user/yourprofile" target="_blank" rel="noopener noreferrer" class="view-more-button">
+            View more workouts
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+              <path d="M8 0a8 8 0 1 1 0 16A8 8 0 0 1 8 0zM4.5 7.5a.5.5 0 0 0 0 1h5.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5H4.5z"/>
+            </svg>
+          </a>
+        </div>
+      {/if}
+    </div>
   </div>
-</section>
+</SectionWrapper>
+
+<style>
+  .fitness-container {
+    width: 100%;
+  }
+  
+  .view-more-button-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 2.5rem;
+  }
+  
+  .view-more-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background-color: #4f46e5;
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border-radius: 6px;
+    font-weight: 600;
+    transition: background-color 0.3s ease;
+    text-decoration: none;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .view-more-button:hover {
+    background-color: #4338ca;
+  }
+  
+  .view-more-button svg {
+    margin-top: 1px;
+  }
+</style>
