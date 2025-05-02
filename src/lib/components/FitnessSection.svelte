@@ -214,7 +214,7 @@
                         <h5 class="font-bold text-gray-800">{exercise.title}</h5>
                         
                         {#if exercise.sets && exercise.sets.length > 0}
-                          <div class="mt-2 grid grid-cols-3 gap-2">
+                          <div class="mt-2 grid grid-cols-1 gap-2">
                             {#each exercise.sets as set}
                               <div class="rounded p-2 text-sm {getSetTypeColor(set.type)} flex justify-between items-center">
                                 <span class="capitalize font-medium">{set.type || 'Set'}</span>
