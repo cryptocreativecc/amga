@@ -165,7 +165,7 @@
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                         </svg>
-                        Created: {formatEuropeanDate(workout.created_at)}
+                        Workout: {formatEuropeanDate(workout.created_at)}
                       </div>
                     </div>
                     <div class="bg-blue-800 bg-opacity-30 rounded-md px-3 py-1 text-xs text-white">
@@ -245,12 +245,7 @@
                   <p class="text-gray-500">No exercises in this workout</p>
                 {/if}
               </div>
-              
-              <div class="px-6 py-3 bg-gray-50 border-t border-gray-200">
-                <button class="w-full py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-medium rounded transition-colors duration-200">
-                  View Details
-                </button>
-              </div>
+            
             </div>
           {/each}
         </div>
