@@ -156,14 +156,7 @@
                   <p class="text-blue-100 text-sm mt-1">{workout.description}</p>
                 {/if}
                 <div class="flex flex-wrap gap-2 mt-2">
-                  <div class="rounded-full bg-blue-800 bg-opacity-30 px-3 py-1 text-xs text-white">
-                    <span>Total Weight: {workout.exercises?.reduce((total, ex) => 
-                      total + (ex.sets?.reduce((setTotal, set) => 
-                        setTotal + (set.weight_kg || 0), 0) || 0), 0)}kg</span>
-                  </div>
-                  <div class="rounded-full bg-blue-800 bg-opacity-30 px-3 py-1 text-xs text-white">
-                    <span>Duration: {formatDuration(calculateTotalDuration(workout))}</span>
-                  </div>
+                  <!-- Duration removed as requested -->
                 </div>
                 {#if workout.created_at}
                   <div class="flex items-center gap-2 mt-3">
@@ -181,6 +174,16 @@
                           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                         </svg>
                         {getTimeSinceCreation(workout.created_at)}
+                      </div>
+                    </div>
+                    <div class="bg-blue-800 bg-opacity-30 rounded-md px-3 py-1 text-xs text-white">
+                      <div class="flex items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3" />
+                        </svg>
+                        Total Weight: {workout.exercises?.reduce((total, ex) => 
+                          total + (ex.sets?.reduce((setTotal, set) => 
+                            setTotal + (set.weight_kg || 0), 0) || 0), 0)}kg
                       </div>
                     </div>
                   </div>
