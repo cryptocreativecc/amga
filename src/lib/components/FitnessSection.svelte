@@ -6,16 +6,12 @@
   let isLoading = true;
   let error = null;
   
-  // Function to fetch workouts from API
+  // Function to fetch workouts from API via server endpoint
   async function fetchWorkouts() {
     try {
       isLoading = true;
-      const response = await fetch('https://api.hevyapp.com/v1/routines?page=1&pageSize=5', {
-        headers: {
-          'accept': 'application/json',
-          'api-key': '09dda1b4-5e8d-4f31-8dc3-8ec3e412c75f'
-        }
-      });
+      // Use a server endpoint instead of directly exposing API key in client code
+      const response = await fetch('/api/workouts');
       
       if (!response.ok) {
         throw new Error(`API request failed with status ${response.status}`);
