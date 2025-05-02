@@ -140,8 +140,8 @@
       <p class="text-lg md:text-xl w-full mb-6">
         Track my fitness journey and recent workout routines.
       </p>
-    
-    {#if isLoading}
+      
+      {#if isLoading}
       <div class="flex justify-center items-center h-40">
         <div class="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
       </div>
