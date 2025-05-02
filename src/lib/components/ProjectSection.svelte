@@ -86,7 +86,7 @@
       {:else}                    
       <h2 class="text-2xl md:text-3xl font-semibold mb-3">Current <span class="text-green-500">Projects</span></h2>
           <p class="text-lg md:text-xl w-full mb-2">
-            What I am currently working on [Head Bangers].
+            I'm passionate about expanding my coding knowledge and constantly seeking ways to enhance my programming efficiency. Exploring new programming techniques and best practices. I'm particularly interested in AI implementation and integration, studying ways to leverage artificial intelligence to create more sophisticated and intelligent solutions. My drive to learn extends beyond just writing code – I focus on understanding system architecture, optimisation techniques, and emerging technologies to make both myself and my code more effective.
           </p>
           <div class="live-indicator">
             <div class="pulse-circle"></div>
