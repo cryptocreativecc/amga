@@ -134,7 +134,7 @@
     <div class="fitness-container">
       <h2 class="text-2xl md:text-3xl font-semibold mb-3">My <span class="text-green-400">Workouts</span></h2>
       <p class="text-lg md:text-xl w-full mb-6">
-        Track my fitness journey and recent workout routines.
+        I enjoy staying active to boost my mental health through various outdoor activities and exercise. Whether I'm swimming laps at the pool, lifting weights at the gym, hiking scenic trails, or cycling through different routes, keeping my body moving helps maintain my mental wellbeing. 
       </p>
       
       {#if isLoading}
@@ -147,7 +147,7 @@
           <span class="block sm:inline"> {error}</span>
         </div>
       {:else}
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div class="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-1 gap-6">
           {#each workouts as workout}
             <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300">
               <div class="bg-gradient-to-r from-blue-600 to-indigo-700 px-6 py-4">
@@ -155,12 +155,6 @@
                 {#if workout.description}
                   <p class="text-blue-100 text-sm mt-1">{workout.description}</p>
                 {/if}
-                <p class="text-blue-100 text-sm mt-2">
-                  {workout.start_time && workout.end_time ? 
-                    formatTimePeriod(workout.start_time, workout.end_time) : 
-                    formatTimePeriod(workout.created_at, workout.updated_at)}
-                </p>
-                
                 <div class="flex flex-wrap gap-2 mt-2">
                   <div class="rounded-full bg-blue-800 bg-opacity-30 px-3 py-1 text-xs text-white">
                     <span>Total Weight: {workout.exercises?.reduce((total, ex) => 
@@ -171,7 +165,6 @@
                     <span>Duration: {formatDuration(calculateTotalDuration(workout))}</span>
                   </div>
                 </div>
-                
                 {#if workout.created_at}
                   <div class="flex items-center gap-2 mt-3">
                     <div class="bg-blue-800 bg-opacity-30 rounded-md px-3 py-1 text-xs text-white">
