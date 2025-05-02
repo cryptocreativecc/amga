@@ -231,7 +231,7 @@
                                   {/if}
                                 {:else}
                                   <!-- For non-walking exercises, show all metrics -->
-                                  <div class="flex items-center gap-2">
+                                  <div class="flex items-center gap-2 ml-auto">
                                     <span>{set.weight_kg || 0}kg × {set.reps || 0}</span>
                                     {#if set.duration_seconds}
                                       <span class="text-xs flex items-center">
