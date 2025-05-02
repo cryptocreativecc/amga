@@ -190,6 +190,15 @@
                           total + (ex.sets?.reduce((setTotal, set) => 
                             setTotal + (set.weight_kg || 0), 0) || 0), 0)}kg
                       </div>
+                    <div class="bg-blue-800 bg-opacity-30 rounded-md px-3 py-1 text-xs text-white">
+                      <div class="flex items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16" />
+                        </svg>
+                        Total Sets: {workout.exercises?.reduce((total, ex) => 
+                          total + (ex.sets?.length || 0), 0)}
+                      </div>
+                    </div>
                     </div>
                   </div>
                 {/if}
