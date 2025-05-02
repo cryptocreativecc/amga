@@ -208,7 +208,7 @@
                 <h4 class="text-lg font-semibold text-gray-700 mb-2">Exercises</h4>
                 
                 {#if workout.exercises && workout.exercises.length > 0}
-                  <div class="space-y-4">
+                  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                     {#each workout.exercises as exercise}
                       <div class="border border-gray-200 rounded-md p-3">
                         <h5 class="font-bold text-gray-800">{exercise.title}</h5>
