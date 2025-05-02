@@ -346,8 +346,8 @@
   }
   
   .hevy-icon {
-    width: 16px;
-    height: 16px;
+    width: 14px;
+    height: 14px;
     margin: 0 0.25rem;
     display: inline-block;
     vertical-align: middle;
