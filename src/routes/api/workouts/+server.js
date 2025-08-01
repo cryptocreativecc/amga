@@ -6,7 +6,7 @@ import { json } from '@sveltejs/kit';
 export async function GET() {
   try {
     // API key is now stored server-side
-    const response = await fetch('https://api.hevyapp.com/v1/routines?page=1&pageSize=5', {
+    const response = await fetch('https://api.hevyapp.com/v1/workouts?page=1&pageSize=5', {
       headers: {
         'accept': 'application/json',
         'api-key': '09dda1b4-5e8d-4f31-8dc3-8ec3e412c75f'

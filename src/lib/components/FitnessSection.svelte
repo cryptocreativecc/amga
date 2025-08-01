@@ -20,7 +20,12 @@
       }
       
       const data = await response.json();
-      workouts = data.routines || []; // Using routines as workouts in this case
+      const allWorkouts = data.workouts || []; // Using workouts from the API
+      
+      // Sort workouts by created_at date (most recent first) and take only the first one
+      workouts = allWorkouts
+        .sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
+        .slice(0, 1); // Only keep the most recent workout
     } catch (err) {
       error = err.message;
       console.error('Error fetching workouts:', err);
