@@ -9,6 +9,10 @@ html {
   scroll-behavior: smooth;
 }
 
+body {
+  background-color: #191923;
+}
+
 *{
   font-family: "Quicksand", sans-serif;
 } 
@@ -20,4 +24,8 @@ h1, h2, h3 .cabin{
 span {
   font-family:inherit;
   font-weight: inherit;
+}
+
+.amga-purple {
+  color:#b687f2;
 }
