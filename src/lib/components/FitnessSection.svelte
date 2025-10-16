@@ -214,7 +214,18 @@
               
               <div class="px-6 py-4">
                 <!-- Exercises Dropdown Header -->
-                <div class="flex items-center justify-between mb-4 cursor-pointer" on:click={() => showExercises = !showExercises}>
+                <div 
+                  class="flex items-center justify-between mb-4 cursor-pointer" 
+                  role="button"
+                  tabindex="0"
+                  on:click={() => showExercises = !showExercises}
+                  on:keydown={(e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                      e.preventDefault();
+                      showExercises = !showExercises;
+                    }
+                  }}
+                >
                   <h4 class="text-lg font-semibold text-gray-700">Exercises ({workout.exercises?.length || 0})</h4>
                   <div class="flex items-center gap-2">
                     <span class="text-sm text-gray-500">{showExercises ? 'Hide' : 'Show'} exercises</span>

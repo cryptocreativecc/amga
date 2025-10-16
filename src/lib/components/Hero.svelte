@@ -106,8 +106,16 @@
             <div class="mb-6">
               <div 
                 class="relative rounded-full w-48 h-48 md:w-56 md:h-56 border-4 border-white shadow-lg overflow-hidden cursor-pointer"
+                role="button"
+                tabindex="0"
                 on:mouseenter={() => isHovering = true}
                 on:mouseleave={() => isHovering = false}
+                on:keydown={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    isHovering = !isHovering;
+                  }
+                }}
               >
                 <img 
                   src="/AMGA-austin.png" 

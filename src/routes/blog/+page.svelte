@@ -71,12 +71,11 @@
                 {#if post.categories && post.categories.nodes.length > 0}
                   <div class="absolute bottom-4 left-4">
                     {#each post.categories.nodes as category}
-                      <a 
-                        href="/blog/category/{category.slug}" 
-                        class="inline-block amga-bg-purple text-white px-3 py-1 rounded-full text-sm font-medium hover:bg-blue-700 transition-colors duration-200 shadow-sm"
+                      <span 
+                        class="inline-block amga-bg-purple text-white px-3 py-1 rounded-full text-sm font-medium shadow-sm"
                       >
                         {category.name}
-                      </a>
+                      </span>
                     {/each}
                   </div>
                 {/if}
@@ -97,12 +96,11 @@
                 {#if post.categories && post.categories.nodes.length > 0}
                   <div class="absolute bottom-4 left-4">
                     {#each post.categories.nodes as category}
-                      <a 
-                        href="/blog/category/{category.slug}" 
-                        class="inline-block bg-blue-600 text-white px-3 py-1 rounded-full text-sm font-medium hover:bg-blue-700 transition-colors duration-200 shadow-sm"
+                      <span 
+                        class="inline-block bg-blue-600 text-white px-3 py-1 rounded-full text-sm font-medium shadow-sm"
                       >
                         {category.name}
-                      </a>
+                      </span>
                     {/each}
                   </div>
                 {/if}

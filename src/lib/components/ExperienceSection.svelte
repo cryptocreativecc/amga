@@ -219,10 +219,6 @@
   </SectionWrapper>
   
   <style>
-    .experience-container {
-      width: 100%;
-    }
-    
     .featured-experience {
       margin-bottom: 2rem;
     }

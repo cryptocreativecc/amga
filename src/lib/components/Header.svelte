@@ -36,17 +36,6 @@
     animation: bounce 0.6s ease;
   }
 
-  .logo-link {
-    transition: all 0.3s ease;
-  }
-
-  .logo-link:hover {
-    background-color: transparent !important;
-  }
-
-  .logo-link:hover img {
-    animation: logoColorShift 0.5s ease forwards;
-  }
 </style>
 
 <header class="flex flex-col relative z-20">
