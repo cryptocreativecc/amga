@@ -27,41 +27,88 @@
       });                                                                                                                                                                         
     }                                                                                                                                                                             
                                                                                                                                                                                   
-    // Fetch repositories from GitHub API                                                                                                                                         
-    async function fetchRepositories() {                                                                                                                                          
-      try {                                                                                                                                                                       
-        const response = await fetch('https://api.github.com/users/BWDC-dev/repos?sort=updated&per_page=6');                                                                      
-                                                                                                                                                                                  
-        if (!response.ok) {                                                                                                                                                       
-          throw new Error('Failed to fetch repositories');                                                                                                                        
-        }                                                                                                                                                                         
-                                                                                                                                                                                  
-        const repos = await response.json();                                                                                                                                      
-                                                                                                                                                                                  
-        // Fetch languages for each repository                                                                                                                                    
-        const reposWithLanguages = await Promise.all(                                                                                                                             
-          repos.map(async (repo: Repository) => {                                                                                                                                 
-            try {                                                                                                                                                                 
-              const langResponse = await fetch(repo.languages_url);                                                                                                               
-              if (langResponse.ok) {                                                                                                                                              
-                repo.languages = await langResponse.json();                                                                                                                       
-              }                                                                                                                                                                   
-            } catch (e) {                                                                                                                                                         
-              console.error(`Failed to fetch languages for ${repo.name}`, e);                                                                                                     
-              repo.languages = {};                                                                                                                                                
-            }                                                                                                                                                                     
-            return repo;                                                                                                                                                          
-          })                                                                                                                                                                      
-        );                                                                                                                                                                        
-                                                                                                                                                                                  
-        repositories = reposWithLanguages;                                                                                                                                        
-      } catch (e) {                                                                                                                                                               
-        console.error('Error fetching repositories:', e);                                                                                                                         
-        error = true;                                                                                                                                                             
-      } finally {                                                                                                                                                                 
-        loading = false;                                                                                                                                                          
-      }                                                                                                                                                                           
-    }                                                                                                                                                                             
+    // Fetch repositories from GitHub API with fallback for rate limiting
+    async function fetchRepositories() {
+      try {
+        const response = await fetch('https://api.github.com/users/amga-code/repos?sort=updated&per_page=6');
+
+        if (!response.ok) {
+          // Check if it's a rate limit error
+          if (response.status === 403) {
+            const rateLimitData = await response.json();
+            if (rateLimitData.message?.includes('rate limit')) {
+              console.warn('GitHub API rate limit exceeded, using fallback data');
+              useFallbackData();
+              return;
+            }
+          }
+          throw new Error('Failed to fetch repositories');
+        }
+
+        const repos = await response.json();
+
+        // Fetch languages for each repository
+        const reposWithLanguages = await Promise.all(
+          repos.map(async (repo: Repository) => {
+            try {
+              const langResponse = await fetch(repo.languages_url);
+              if (langResponse.ok) {
+                repo.languages = await langResponse.json();
+              }
+            } catch (e) {
+              console.error(`Failed to fetch languages for ${repo.name}`, e);
+              repo.languages = {};
+            }
+            return repo;
+          })
+        );
+
+        repositories = reposWithLanguages;
+      } catch (e) {
+        console.error('Error fetching repositories:', e);
+        // Use fallback data on any error
+        useFallbackData();
+      } finally {
+        loading = false;
+      }
+    }
+
+    // Fallback data when GitHub API is unavailable
+    function useFallbackData() {
+      repositories = [
+        {
+          id: 1,
+          name: 'amga',
+          description: 'Personal portfolio website built with SvelteKit',
+          language: 'TypeScript',
+          updated_at: new Date().toISOString(),
+          html_url: 'https://github.com/BWDC-dev/amga',
+          languages_url: '',
+          languages: { TypeScript: 100, CSS: 50, HTML: 30 }
+        },
+        {
+          id: 2,
+          name: 'portfolio',
+          description: 'Previous portfolio implementation',
+          language: 'JavaScript',
+          updated_at: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString(),
+          html_url: 'https://github.com/BWDC-dev',
+          languages_url: '',
+          languages: { JavaScript: 80, CSS: 40, HTML: 20 }
+        },
+        {
+          id: 3,
+          name: 'project-template',
+          description: 'Template for new projects',
+          language: 'TypeScript',
+          updated_at: new Date(Date.now() - 14 * 24 * 60 * 60 * 1000).toISOString(),
+          html_url: 'https://github.com/BWDC-dev',
+          languages_url: '',
+          languages: { TypeScript: 70, 'Svelte': 60 }
+        }
+      ];
+      error = false;
+    }
                                                                                                                                                                                   
     onMount(() => {                                                                                                                                                               
       fetchRepositories();                                                                                                                                                        
@@ -84,14 +131,17 @@
           <p>No repositories found.</p>                                                                                                                                           
         </div>                                                                                                                                                                    
       {:else}                    
-      <h2 class="text-2xl md:text-3xl font-semibold mb-3">Current <span class="amga-purple">Projects</span></h2>
-          <p class="text-lg md:text-xl w-full mb-2">
-            I'm passionate about expanding my coding knowledge and constantly seeking ways to enhance my programming efficiency. Exploring new programming techniques and best practices. I'm particularly interested in AI implementation and integration, studying ways to leverage artificial intelligence to create more sophisticated and intelligent solutions. My drive to learn extends beyond just writing code – I focus on understanding system architecture, optimisation techniques, and emerging technologies to make both myself and my code more effective.
-          </p>
-          <div class="live-indicator">
-            <div class="pulse-circle"></div>
-            <span>Live from <i class="fa-brands fa-github"></i> Github</span>
-          </div>                                                                                                                                                 
+      <div class="text-center">
+        <h2 class="text-2xl md:text-3xl font-semibold mb-3">Current <span class="amga-purple">Projects</span></h2>
+        <div class="max-w-[20%] h-[2px] w-full bg-gradient-to-r from-transparent to-[#b687f2] mt-2 mb-4 mx-auto"></div>
+        <p class="text-base md:text-lg max-w-[90%] mx-auto mb-8">
+          I'm passionate about expanding my coding knowledge and constantly seeking ways to enhance my programming efficiency. Exploring new programming techniques and best practices. I'm particularly interested in AI implementation and integration, studying ways to leverage artificial intelligence to create more sophisticated and intelligent solutions. My drive to learn extends beyond just writing code – I focus on understanding system architecture, optimisation techniques, and emerging technologies to make both myself and my code more effective.
+        </p>
+        <div class="live-indicator">
+          <div class="pulse-circle"></div>
+          <span>Live from <i class="text-xl fa-brands fa-github"></i> Github</span>
+        </div>
+      </div>                                                                                                                                                 
         <div class="projects-grid">                                                                                                                                               
           {#each repositories as repo}                                                                                                                                            
             <a href={repo.html_url} target="_blank" rel="noopener noreferrer" class="project-card">                                                                               
@@ -116,13 +166,13 @@
           {/each}                                                                                                                                                                 
         </div>
         <div class="view-more-container">
-          <a href="https://github.com/BWDC-dev" target="_blank" rel="noopener noreferrer" class="view-more-button">
+          <a href="https://github.com/amga-code" target="_blank" rel="noopener noreferrer" class="view-more-button">
             <i class="fa-brands fa-github"></i> View more projects on Github
           </a>
         </div>                                                                                                                                                                    
       {/if}                                                                                                                                                                       
     </div>          
-    </div>                                                                                                                                                              
+    </div>
   </SectionWrapper>                                                                                                                                                               
                                                                                                                                                                                   
   <style>                                                                                                                                                                         
@@ -209,8 +259,12 @@
     
     .view-more-container {
       display: flex;
+          width: fit-content;
       justify-content: center;
-      margin-top: 2rem;
+      margin: 2rem auto;
+      padding: 2px;
+      border-radius: 8px;
+      background: linear-gradient(to right, transparent, #b687f2);
     }
     
     .view-more-button {
@@ -226,7 +280,8 @@
     }
     
     .view-more-button:hover {
-      background-color: #2c974b;
+      background-color: #b687f2;
+      color: #191923;
     }
     
     .view-more-button i {
@@ -263,4 +318,4 @@
         box-shadow: 0 0 0 0 rgba(46, 164, 79, 0);
       }
     }                                                                                                                                                                             
-  </style>         
+  </style>

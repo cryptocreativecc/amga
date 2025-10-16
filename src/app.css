@@ -14,11 +14,11 @@ body {
 }
 
 *{
-  font-family: "Quicksand", sans-serif;
+  font-family: "Google Sans Code", monospace;
 } 
 
-h1, h2, h3 .cabin{
-  font-family: "Cabin", sans-serif;
+h1, h2, h3, h4{
+  font-family: "Funnel Sans", sans-serif;
 }
 
 span {
@@ -28,4 +28,107 @@ span {
 
 .amga-purple {
   color:#b687f2;
+}
+
+.amga-bg-purple {
+  background-color:#b687f2;
+  color: #191923;
+}
+
+.amga-bg-black {
+  background-color: #191923;
+}
+
+.view-more-container {
+  display: flex;
+  width: fit-content;
+  justify-content: center;
+  margin: 1rem 0;
+  padding: 2px;
+  border-radius: 8px;
+  background: linear-gradient(to right, transparent, #b687f2);
+}
+
+.view-more-button {
+  display: inline-flex;
+  align-items: center;
+  background-color: #24292e;
+  color: white;
+  padding: 0.75rem 1.5rem;
+  border-radius: 6px;
+  font-weight: 600;
+  transition: background-color 0.3s ease;
+  text-decoration: none;
+}
+
+.view-more-button:hover {
+  background-color: #b687f2;
+  color: #191923;
+}
+
+.view-more-button i {
+  margin-right: 0.5rem;
+  font-size: 1.25rem;
+}
+
+/* Pulsing bullet points for blog posts */
+.prose ul li::marker {
+  color: #b687f2;
+  animation: pulse-bullet 2s infinite;
+}
+
+.prose ol li::marker {
+  color: #b687f2;
+  animation: pulse-bullet 2s infinite;
+}
+
+@keyframes pulse-bullet {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+/* Custom blockquote styling */
+.prose blockquote {
+  border-left-color: #b687f2 !important;
+  background-color: #191923 !important;
+  border: 1px solid #b687f2 !important;
+  padding: 1rem 1.5rem !important;
+}
+
+/* Better table styling */
+.prose table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.5rem 0;
+}
+
+.prose thead {
+  background-color: #b687f2;
+}
+
+.prose th {
+  color: #191923;
+  font-weight: 600;
+  padding: 0.75rem 1rem;
+  text-align: left;
+  border: 1px solid #b687f2;
+}
+
+.prose td {
+  color: white;
+  padding: 0.75rem 1rem;
+  border: 1px solid #374151;
+  background-color: #191923;
+}
+
+.prose tbody tr:nth-child(even) {
+  background-color: #1f2937;
+}
+
+.prose tbody tr:hover {
+  background-color: #374151;
 }
