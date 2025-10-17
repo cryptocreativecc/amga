@@ -4,6 +4,55 @@ const WORDPRESS_GRAPHQL_URL = 'https://wordpress.codemash.dev/graphql';
 
 export const graphqlClient = new GraphQLClient(WORDPRESS_GRAPHQL_URL);
 
+// Cache configuration
+interface CacheEntry {
+  data: any;
+  timestamp: number;
+  ttl: number;
+}
+
+class GraphQLCache {
+  private cache = new Map<string, CacheEntry>();
+  private defaultTTL = 60 * 60 * 1000; // 1 hour in milliseconds
+
+  set(key: string, data: any, ttl: number = this.defaultTTL): void {
+    this.cache.set(key, {
+      data,
+      timestamp: Date.now(),
+      ttl
+    });
+  }
+
+  get(key: string): any | null {
+    const entry = this.cache.get(key);
+    if (!entry) return null;
+
+    const isExpired = Date.now() - entry.timestamp > entry.ttl;
+    if (isExpired) {
+      this.cache.delete(key);
+      return null;
+    }
+
+    return entry.data;
+  }
+
+  delete(key: string): void {
+    this.cache.delete(key);
+  }
+
+  clear(): void {
+    this.cache.clear();
+  }
+
+  // Get stale data (for stale-while-revalidate pattern)
+  getStale(key: string): any | null {
+    const entry = this.cache.get(key);
+    return entry ? entry.data : null;
+  }
+}
+
+export const graphqlCache = new GraphQLCache();
+
 // Types for WordPress GraphQL responses
 export interface Category {
   id: string;
@@ -93,23 +142,104 @@ export const GET_POST_BY_SLUG_QUERY = `
   }
 `;
 
-// API functions
+// API functions with caching
 export async function getPosts(): Promise<Post[]> {
+  const cacheKey = 'posts:all';
+  
   try {
+    // Try to get fresh data first
     const data: PostsResponse = await graphqlClient.request(GET_POSTS_QUERY);
+    graphqlCache.set(cacheKey, data);
     return data.posts.nodes;
   } catch (error) {
     console.error('Error fetching posts:', error);
+    
+    // Fallback to stale cache if available
+    const staleData = graphqlCache.getStale(cacheKey) as PostsResponse;
+    if (staleData) {
+      console.log('Using stale cache for posts');
+      return staleData.posts.nodes;
+    }
+    
     throw error;
   }
 }
 
 export async function getPostBySlug(slug: string): Promise<Post | null> {
+  const cacheKey = `post:${slug}`;
+  
   try {
     const data: PostResponse = await graphqlClient.request(GET_POST_BY_SLUG_QUERY, { slug });
+    graphqlCache.set(cacheKey, data);
     return data.post;
   } catch (error) {
     console.error(`Error fetching post with slug ${slug}:`, error);
+    
+    // Fallback to stale cache if available
+    const staleData = graphqlCache.getStale(cacheKey) as PostResponse;
+    if (staleData) {
+      console.log(`Using stale cache for post: ${slug}`);
+      return staleData.post;
+    }
+    
     return null;
   }
+}
+
+// Cache management functions
+export function clearPostsCache(): void {
+  graphqlCache.delete('posts:all');
+}
+
+export function clearPostCache(slug: string): void {
+  graphqlCache.delete(`post:${slug}`);
+}
+
+export function clearAllCache(): void {
+  graphqlCache.clear();
+}
+
+// Utility function to process WordPress content and fix image URLs if needed
+export function processPostContent(content: string): string {
+  if (!content) return '';
+  
+  // Process images in the content to ensure they display correctly
+  let processedContent = content;
+  
+  // Add responsive image classes, lazy loading, and ensure proper styling
+  processedContent = processedContent.replace(
+    /<img([^>]*)>/g,
+    (match, attributes) => {
+      // Check if the image already has a class attribute
+      if (attributes.includes('class="')) {
+        // Add our classes to existing ones
+        return match.replace(
+          /class="([^"]*)"/,
+          'class="$1 max-w-full h-auto rounded-lg shadow-md" loading="lazy"'
+        );
+      } else {
+        // Add our classes and lazy loading
+        return `<img${attributes} class="max-w-full h-auto rounded-lg shadow-md" loading="lazy">`;
+      }
+    }
+  );
+  
+  // Ensure images without width/height attributes get proper styling
+  processedContent = processedContent.replace(
+    /<img((?:(?!width=|height=).)*?)>/g,
+    (match, attributes) => {
+      if (!attributes.includes('style=')) {
+        return `<img${attributes} style="max-width: 100%; height: auto;">`;
+      }
+      return match;
+    }
+  );
+  
+  // Handle figure elements that might contain images
+  processedContent = processedContent.replace(
+    /<figure([^>]*)>([\s\S]*?)<\/figure>/g,
+    '<figure$1 class="my-6">$2</figure>'
+  );
+  
+  return processedContent;
 }

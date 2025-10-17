@@ -2,6 +2,7 @@
   import type { PageData } from './$types';
   import { error } from '@sveltejs/kit';
   import Breadcrumb from '$lib/components/Breadcrumb.svelte';
+  import { processPostContent } from '$lib/utils/graphql';
 
   export let data: PageData;
   
@@ -10,6 +11,7 @@
   }
 
   const { post } = data;
+  const processedContent = processPostContent(post.content);
 </script>
 
 <svelte:head>
@@ -71,7 +73,7 @@
     <!-- Article Content -->
     <article class="prose prose-lg max-w-none">
       <div class="prose-headings:text-white prose-h3:text-[#b687f2] prose-p:text-white prose-a:text-blue-600 prose-a:no-underline hover:prose-a:underline prose-blockquote:border-l-[#b687f2] prose-blockquote:amga-bg-black prose-blockquote:border prose-blockquote:border-[#b687f2] prose-blockquote:py-4 prose-blockquote:px-6 prose-strong:text-[#b687f2] prose-ul:text-white prose-ol:text-white prose-li:text-white">
-        {@html post.content}
+        {@html processedContent}
       </div>
     </article>
 

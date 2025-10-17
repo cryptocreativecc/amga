@@ -17,6 +17,16 @@
       loading = false;
     }
   });
+
+  // Cache management for development
+  if (import.meta.hot) {
+    import.meta.hot.accept(() => {
+      // Clear cache on HMR for development
+      import('$lib/utils/graphql').then(({ clearAllCache }) => {
+        clearAllCache();
+      });
+    });
+  }
 </script>
 
 <svelte:head>
