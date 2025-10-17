@@ -5,6 +5,11 @@
   import FitnessSection from '$lib/components/FitnessSection.svelte';
 </script>
 
+<svelte:head>
+  <title>AMGA - Austin McCormick Graphical Artist</title>
+  <meta name="description" content="Austin McCormick Graphical Artist - Professional graphic design, web development, and creative solutions" />
+</svelte:head>
+
 <main class="flex flex-col">
   <Hero />
   <ProjectSection />
