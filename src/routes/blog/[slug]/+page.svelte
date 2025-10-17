@@ -32,7 +32,7 @@
 
     <!-- Featured Image -->
     {#if post.featuredImage}
-      <div class="relative mb-8 rounded-lg overflow-hidden">
+      <div class="relative mb-8 rounded-2xl overflow-hidden shadow-lg">
         <img 
           src={post.featuredImage.node.sourceUrl} 
           alt={post.featuredImage.node.altText || post.title}
@@ -72,6 +72,186 @@
 
     <!-- Article Content -->
     <article class="prose prose-lg max-w-none">
+      <style>
+        /* WordPress block image styling */
+        .prose .wp-block-image {
+          margin: 2rem 0 !important;
+        }
+        
+        @media (max-width: 767px) {
+          .prose .wp-block-image {
+            display: flex !important;
+            justify-content: center !important;
+            align-items: center !important;
+          }
+        }
+        
+        .prose .wp-block-image.is-style-rounded img {
+          border-radius: 1rem !important;
+          box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04) !important;
+        }
+        
+        .prose .wp-block-image.size-medium img {
+          max-width: 300px !important;
+          height: auto !important;
+        }
+        
+        .prose .wp-block-image.is-resized img {
+          width: auto !important;
+          height: auto !important;
+        }
+        
+        /* WordPress group block styling */
+        .prose .wp-block-group {
+          margin: 2rem 0 !important;
+        }
+        
+        .prose .wp-block-group.is-layout-flex {
+          display: flex !important;
+          flex-direction: column !important;
+          gap: 1rem !important;
+          align-items: flex-start !important;
+        }
+        
+        @media (min-width: 768px) {
+          .prose .wp-block-group.is-layout-flex {
+            flex-direction: row !important;
+            align-items: center !important;
+          }
+        }
+        
+        .prose .wp-block-group.is-nowrap {
+          flex-wrap: nowrap !important;
+        }
+        
+        .prose .wp-block-group.is-layout-flex .wp-block-image {
+          margin: 0 !important;
+          flex-shrink: 0 !important;
+        }
+        
+        .prose .wp-block-group.is-layout-flex > * {
+          flex: 1 !important;
+          min-width: 0 !important;
+        }
+        
+        @media (min-width: 768px) {
+          .prose .wp-block-group.is-layout-flex > * {
+            min-width: 65% !important;
+          }
+        }
+        
+        /* WordPress columns block styling */
+        .prose .wp-block-columns {
+          margin: 2rem 0 !important;
+          display: flex !important;
+          flex-direction: column !important;
+          gap: 1.5rem !important;
+        }
+        
+        @media (min-width: 768px) {
+          .prose .wp-block-columns {
+            flex-direction: row !important;
+          }
+        }
+        
+        .prose .wp-block-columns.is-layout-flex {
+          flex-wrap: wrap !important;
+        }
+        
+        .prose .wp-block-columns > * {
+          flex: 1 !important;
+          min-width: 0 !important;
+        }
+        
+        @media (min-width: 768px) {
+          .prose .wp-block-columns > * {
+            min-width: 0 !important;
+          }
+        }
+        
+        /* WordPress column individual styling */
+        .prose .wp-block-column {
+          flex: 1 !important;
+          min-width: 0 !important;
+        }
+        
+        /* WordPress column width classes */
+        .prose .wp-block-column[style*="flex-basis:66.66%"],
+        .prose .wp-block-column[style*="flex-basis: 66.66%"] {
+          max-width: 66.66% !important;
+        }
+        
+        .prose .wp-block-column[style*="flex-basis:33.33%"],
+        .prose .wp-block-column[style*="flex-basis: 33.33%"] {
+          max-width: 33.33% !important;
+        }
+        
+        /* Responsive column behavior */
+        @media (max-width: 767px) {
+          .prose .wp-block-column[style*="flex-basis:66.66%"],
+          .prose .wp-block-column[style*="flex-basis: 66.66%"],
+          .prose .wp-block-column[style*="flex-basis:33.33%"],
+          .prose .wp-block-column[style*="flex-basis: 33.33%"] {
+            flex-basis: 100% !important;
+            max-width: 100% !important;
+          }
+        }
+        
+        /* General image styling */
+        .prose img {
+          border-radius: 0.5rem !important;
+          box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06) !important;
+        }
+        
+        /* Image alignment styles */
+        .prose img.float-left {
+          float: left !important;
+          margin-right: 1.5rem !important;
+          margin-bottom: 1rem !important;
+          max-width: 18rem !important;
+        }
+        
+        .prose img.float-right {
+          float: right !important;
+          margin-left: 1.5rem !important;
+          margin-bottom: 1rem !important;
+          max-width: 18rem !important;
+        }
+        
+        .prose img.mx-auto {
+          display: block !important;
+          margin-left: auto !important;
+          margin-right: auto !important;
+        }
+        
+        /* Clear floats for proper text wrapping */
+        .clear-left::after,
+        .clear-right::after {
+          content: "";
+          display: table;
+          clear: both;
+        }
+        
+        /* WordPress-style figure captions */
+        .prose figure {
+          margin: 2rem 0 !important;
+        }
+        
+        .prose figcaption {
+          text-align: center !important;
+          font-style: italic !important;
+          color: #6b7280 !important;
+          margin-top: 0.5rem !important;
+          font-size: 0.875rem !important;
+        }
+        
+        /* Enhanced paragraph spacing for better readability */
+        .prose p {
+          margin-bottom: 1.5rem !important;
+          line-height: 1.7 !important;
+        }
+      </style>
+      
       <div class="prose-headings:text-white prose-h3:text-[#b687f2] prose-p:text-white prose-a:text-blue-600 prose-a:no-underline hover:prose-a:underline prose-blockquote:border-l-[#b687f2] prose-blockquote:amga-bg-black prose-blockquote:border prose-blockquote:border-[#b687f2] prose-blockquote:py-4 prose-blockquote:px-6 prose-strong:text-[#b687f2] prose-ul:text-white prose-ol:text-white prose-li:text-white">
         {@html processedContent}
       </div>

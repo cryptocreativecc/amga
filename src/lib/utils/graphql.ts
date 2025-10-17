@@ -206,6 +206,40 @@ export function processPostContent(content: string): string {
   // Process images in the content to ensure they display correctly
   let processedContent = content;
   
+  // Handle WordPress block image styling
+  processedContent = processedContent.replace(
+    /<figure class="([^"]*wp-block-image[^"]*)"([^>]*)>([\s\S]*?)<\/figure>/g,
+    (match, classes, attributes, innerContent) => {
+      // Add WordPress block styling
+      let newClasses = classes;
+      if (classes.includes('is-style-rounded')) {
+        newClasses += ' wp-image-rounded';
+      }
+      if (classes.includes('size-medium')) {
+        newClasses += ' wp-image-medium';
+      }
+      if (classes.includes('is-resized')) {
+        newClasses += ' wp-image-resized';
+      }
+      return `<figure class="${newClasses}"${attributes}>${innerContent}</figure>`;
+    }
+  );
+  
+  // Handle WordPress group blocks
+  processedContent = processedContent.replace(
+    /<div class="([^"]*wp-block-group[^"]*)"([^>]*)>([\s\S]*?)<\/div>/g,
+    (match, classes, attributes, innerContent) => {
+      let newClasses = classes;
+      if (classes.includes('is-layout-flex')) {
+        newClasses += ' wp-group-flex';
+      }
+      if (classes.includes('is-nowrap')) {
+        newClasses += ' wp-group-nowrap';
+      }
+      return `<div class="${newClasses}"${attributes}>${innerContent}</div>`;
+    }
+  );
+  
   // Add responsive image classes, lazy loading, and ensure proper styling
   processedContent = processedContent.replace(
     /<img([^>]*)>/g,
@@ -215,11 +249,11 @@ export function processPostContent(content: string): string {
         // Add our classes to existing ones
         return match.replace(
           /class="([^"]*)"/,
-          'class="$1 max-w-full h-auto rounded-lg shadow-md" loading="lazy"'
+          'class="$1 max-w-full h-auto" loading="lazy"'
         );
       } else {
         // Add our classes and lazy loading
-        return `<img${attributes} class="max-w-full h-auto rounded-lg shadow-md" loading="lazy">`;
+        return `<img${attributes} class="max-w-full h-auto" loading="lazy">`;
       }
     }
   );
@@ -233,12 +267,6 @@ export function processPostContent(content: string): string {
       }
       return match;
     }
-  );
-  
-  // Handle figure elements that might contain images
-  processedContent = processedContent.replace(
-    /<figure([^>]*)>([\s\S]*?)<\/figure>/g,
-    '<figure$1 class="my-6">$2</figure>'
   );
   
   return processedContent;
