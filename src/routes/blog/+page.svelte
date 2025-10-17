@@ -2,7 +2,6 @@
   import { onMount } from 'svelte';
   import { getPosts, type Post } from '$lib/utils/graphql';
   import Breadcrumb from '$lib/components/Breadcrumb.svelte';
-  import LikeButton from '$lib/components/LikeButton.svelte';
 
   let posts: Post[] = [];
   let loading = true;
@@ -115,7 +114,7 @@
             
             <!-- Content below the image -->
             <div class="p-6 amga-bg-black">
-              <div class="flex items-center justify-between mb-3">
+              <div class="mb-3">
                 <h2 class="text-2xl font-semibold text-white">
                   <a 
                     href="/blog/{post.slug}" 
@@ -124,7 +123,6 @@
                     {post.title}
                   </a>
                 </h2>
-                <LikeButton postId={post.slug} size="md" />
               </div>
               
               {#if post.excerpt}

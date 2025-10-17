@@ -2,7 +2,6 @@
   import type { PageData } from './$types';
   import { error } from '@sveltejs/kit';
   import Breadcrumb from '$lib/components/Breadcrumb.svelte';
-  import LikeButton from '$lib/components/LikeButton.svelte';
 
   export let data: PageData;
   
@@ -66,10 +65,7 @@
 
     <!-- Article Header -->
     <header class="mb-8">
-      <div class="flex items-start justify-between mb-4">
-        <h1 class="text-4xl md:text-5xl font-bold text-white">{post.title}</h1>
-        <LikeButton postId={post.slug} size="lg" />
-      </div>
+      <h1 class="text-4xl md:text-5xl font-bold text-white mb-4">{post.title}</h1>
     </header>
 
     <!-- Article Content -->

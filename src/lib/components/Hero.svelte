@@ -143,7 +143,7 @@
               </p>
               <!-- My Skill Set Section -->
               <div class="mt-8">
-                <h3 class="text-2xl md:text-3xl font-semibold mb-3 text-center">My Skill set</h3>
+                <h3 class="text-2xl md:text-3xl font-semibold mb-3 text-center">My <span class="amga-purple">Skill set</span></h3>
                 <div class="max-w-[28%] h-[2px] w-full bg-gradient-to-r from-transparent to-[#b687f2] mt-2 mb-4 mx-auto"></div>
                 <div class="h-12 flex items-center justify-center overflow-hidden">
                   <div class="skill-scroll-container">
