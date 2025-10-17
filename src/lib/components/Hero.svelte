@@ -141,13 +141,6 @@
               <p class="text-base md:text-lg max-w-3xl lg:max-w-none mx-auto mb-3">
                 By day, I craft code as a <strong>Senior Web Designer at Edge Hill University</strong>. By night this little corner of the internet becomes my creative playground.
               </p>
-              <p class="text-base md:text-xl max-w-3xl lg:max-w-none mx-auto mb-2">
-                Fancy a chat?
-              </p>
-              <a href="https://wa.me/447727106840" class="text-4xl hover:text-[#b687f2] transition-colors mb-6" aria-label="Whatsapp">
-                <i class="fa-brands fa-whatsapp"></i>
-              </a>
-
               <!-- My Skill Set Section -->
               <div class="mt-8">
                 <h3 class="text-2xl md:text-3xl font-semibold mb-3 text-center">My Skill set</h3>
@@ -166,6 +159,16 @@
                     {/each}
                   </div>
                 </div>
+              </div>
+
+              <!-- Fancy a chat and WhatsApp Section -->
+              <div class="mt-8">
+                <p class="text-base md:text-xl max-w-3xl lg:max-w-none mx-auto mb-2">
+                  Fancy a chat?
+                </p>
+                <a href="https://wa.me/447727106840" class="text-4xl hover:text-[#b687f2] transition-colors" aria-label="Whatsapp">
+                  <i class="fa-brands fa-whatsapp"></i>
+                </a>
               </div>
             </div>
           </div>

@@ -52,7 +52,7 @@
           <input type="text" placeholder="Search..." class="input input-bordered w-[400px]" />
         </div>
       </div>
-      <div class="navbar-end">
+      <div class="navbar-end hidden lg:flex">
         <div class="flex items-center gap-4 mr-4">
           <a href="https://github.com/amga-code" target="_blank" class="text-3xl social-icon" aria-label="GitHub">
             <i class="fa-brands fa-github"></i>
@@ -73,6 +73,22 @@
       <div class="form-control">
         <input type="text" placeholder="Search..." class="input input-bordered w-full" />
       </div>
+    </div>
+
+    <!-- Mobile social icons and contact button row -->
+    <div class="lg:hidden mt-4 flex items-center justify-between">
+      <div class="flex items-center gap-4">
+        <a href="https://github.com/amga-code" target="_blank" class="text-3xl social-icon" aria-label="GitHub">
+          <i class="fa-brands fa-github"></i>
+        </a>
+        <a href="https://www.instagram.com/amga_code/" target="_blank" class="text-3xl social-icon" aria-label="Instagram">
+          <i class="fa-brands fa-instagram"></i>
+        </a>
+        <a href="https://www.linkedin.com/in/mccormick-austin/" target="_blank" class="text-3xl social-icon" aria-label="LinkedIn">
+          <i class="fa-brands fa-linkedin"></i>
+        </a>
+      </div>
+      <a href="https://wa.me/447727106840" target="_blank" class="btn" style="background-color: #b687f2; border-color: #b687f2; color:#191923;">Contact me</a>
     </div>
   </div>
   <!-- Gradient line below navbar -->
