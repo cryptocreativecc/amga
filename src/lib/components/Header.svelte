@@ -41,12 +41,26 @@
 <header class="flex flex-col relative z-20">
   <div class="max-w-[95%] mx-auto w-full">
     <!-- Main navbar row -->
-    <div class="navbar shadow-sm border border-solid border-base-200 lg:px-4 mt-6 rounded-lg">
+    <div class="navbar lg:px-4 mt-6 rounded-lg">
       <div class="navbar-start">
         <a href="/" class="p-0">
           <img src="/AMGA-Logo.svg" alt="AMGA Logo" class="h-10 w-auto" />
         </a>
       </div>
+      
+      <!-- Mobile social icons - positioned to the right of logo -->
+      <div class="navbar-center lg:hidden flex items-center gap-4 ml-4">
+        <a href="https://github.com/amga-code" target="_blank" class="text-3xl social-icon" aria-label="GitHub">
+          <i class="fa-brands fa-github"></i>
+        </a>
+        <a href="https://www.instagram.com/amga_media/" target="_blank" class="text-3xl social-icon" aria-label="Instagram">
+          <i class="fa-brands fa-instagram"></i>
+        </a>
+        <a href="https://www.linkedin.com/in/mccormick-austin/" target="_blank" class="text-3xl social-icon" aria-label="LinkedIn">
+          <i class="fa-brands fa-linkedin"></i>
+        </a>
+      </div>
+      
       <div class="navbar-center hidden lg:flex">
         <div class="form-control ml-4">
           <input type="text" placeholder="Search..." class="input input-bordered w-[400px]" />
@@ -75,20 +89,9 @@
       </div>
     </div>
 
-    <!-- Mobile social icons and contact button row -->
-    <div class="lg:hidden mt-4 flex items-center justify-between">
-      <div class="flex items-center gap-4">
-        <a href="https://github.com/amga-code" target="_blank" class="text-3xl social-icon" aria-label="GitHub">
-          <i class="fa-brands fa-github"></i>
-        </a>
-        <a href="https://www.instagram.com/amga_code/" target="_blank" class="text-3xl social-icon" aria-label="Instagram">
-          <i class="fa-brands fa-instagram"></i>
-        </a>
-        <a href="https://www.linkedin.com/in/mccormick-austin/" target="_blank" class="text-3xl social-icon" aria-label="LinkedIn">
-          <i class="fa-brands fa-linkedin"></i>
-        </a>
-      </div>
-      <a href="https://wa.me/447727106840" target="_blank" class="btn" style="background-color: #b687f2; border-color: #b687f2; color:#191923;">Contact me</a>
+    <!-- Mobile contact button row - full width under search -->
+    <div class="lg:hidden mt-4">
+      <a href="https://wa.me/447727106840" target="_blank" class="btn w-full" style="background-color: #b687f2; border-color: #b687f2; color:#191923;">Contact me</a>
     </div>
   </div>
   <!-- Gradient line below navbar -->
