@@ -71,7 +71,7 @@
           <a href="https://github.com/amga-code" target="_blank" class="text-3xl social-icon" aria-label="GitHub">
             <i class="fa-brands fa-github"></i>
           </a>
-          <a href="https://www.instagram.com/amga_code/" target="_blank" class="text-3xl social-icon" aria-label="Instagram">
+          <a href="https://www.instagram.com/amga_media/" target="_blank" class="text-3xl social-icon" aria-label="Instagram">
             <i class="fa-brands fa-instagram"></i>
           </a>
           <a href="https://www.linkedin.com/in/mccormick-austin/" target="_blank" class="text-3xl social-icon" aria-label="LinkedIn">
