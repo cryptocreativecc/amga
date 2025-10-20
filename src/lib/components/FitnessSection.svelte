@@ -327,7 +327,7 @@
         <!-- View More Workouts Button -->
         {#if workouts.length > 0}
           <div class="view-more-button-container">
-            <a href="https://hevyapp.com/user/yourprofile" target="_blank" rel="noopener noreferrer" class="view-more-button">
+            <a href="https://hevyapp.com/user/amga_fitness" target="_blank" rel="noopener noreferrer" class="view-more-button">
               View more workouts on Hevy
               <HevyIcon class="hevy-icon" />
             </a>
