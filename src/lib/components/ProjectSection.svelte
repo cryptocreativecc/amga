@@ -78,33 +78,13 @@
       repositories = [
         {
           id: 1,
-          name: 'amga',
-          description: 'Personal portfolio website built with SvelteKit',
-          language: 'TypeScript',
+          name: 'amga-bot',
+          description: 'A Telegram bot that responds to questions using Ai for a response.',
+          language: 'Python',
           updated_at: new Date().toISOString(),
-          html_url: 'https://github.com/BWDC-dev/amga',
+          html_url: 'https://github.com/amga-code/amga-bot',
           languages_url: '',
-          languages: { TypeScript: 100, CSS: 50, HTML: 30 }
-        },
-        {
-          id: 2,
-          name: 'portfolio',
-          description: 'Previous portfolio implementation',
-          language: 'JavaScript',
-          updated_at: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString(),
-          html_url: 'https://github.com/BWDC-dev',
-          languages_url: '',
-          languages: { JavaScript: 80, CSS: 40, HTML: 20 }
-        },
-        {
-          id: 3,
-          name: 'project-template',
-          description: 'Template for new projects',
-          language: 'TypeScript',
-          updated_at: new Date(Date.now() - 14 * 24 * 60 * 60 * 1000).toISOString(),
-          html_url: 'https://github.com/BWDC-dev',
-          languages_url: '',
-          languages: { TypeScript: 70, 'Svelte': 60 }
+          languages: { Python: 100}
         }
       ];
       error = false;

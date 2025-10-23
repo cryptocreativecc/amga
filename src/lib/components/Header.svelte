@@ -77,6 +77,9 @@
           <a href="https://www.linkedin.com/in/mccormick-austin/" target="_blank" class="text-3xl social-icon" aria-label="LinkedIn">
             <i class="fa-brands fa-linkedin"></i>
           </a>
+                    <a href="https://t.me/AMGA_Code_Bot" target="_blank" class="text-3xl social-icon" aria-label="Telegram Ai">
+            <i class="fa-brands fa-telegram"></i>
+          </a>
         </div>
         <a href="https://wa.me/447727106840" target="_blank" class="btn" style="background-color: #b687f2; border-color: #b687f2; color:#191923;">Contact me</a>
       </div>

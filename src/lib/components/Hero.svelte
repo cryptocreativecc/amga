@@ -12,25 +12,31 @@
   let skillInterval: ReturnType<typeof setInterval>;
 
   const skills = [
+    'Adobe Photoshop / Illustrator / XD',
+    'Astro.js',
+    'Bootstrap',
+    'Docker',
+    'Dokploy',
+    'Express',
+    'Git / GitHub',
     'HTML5/CSS3',
     'JavaScript',
-    'React',
-    'Vue.js',
-    'Node.js',
-    'Astro.js',
-    'Svelte',
-    'Express',
     'MongoDB',
-    'SQL',
+    'Node.js',
+    'NPM',
     'PHP 5/7/8',
-    'Bootstrap',
+    'Proxmox',
+    'Python',
+    'React',
+    'RESTful APIs',
+    'SQL',
+    'Svelte',
     'Tailwind CSS',
-    'WordPress',
-    'Git / GitHub',
     'UI / UX Design',
-    'Adobe Photoshop / Illustrator / XD',
-    'Docker',
-    'Visual Studio Code'
+    'Visual Studio Code',
+    'Vite',
+    'Vue.js',
+    'WordPress'
   ];
 
   function nextSlide() {
