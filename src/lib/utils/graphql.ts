@@ -230,8 +230,8 @@ export function getProxiedImageUrl(originalUrl: string): string {
   const relativePath = originalUrl.replace(WORDPRESS_URL, '');
   
   // Build the new proxied URL (will be handled by Traefik)
-  // Use absolute path to ensure it works correctly in production
-  return `${PROXIED_PATH}${relativePath}`;
+  // Use absolute URL with current protocol and host to ensure it works correctly
+  return `${window.location.protocol}//${window.location.host}${PROXIED_PATH}${relativePath}`;
 }
 
 // Utility function to process WordPress content and fix image URLs if needed
@@ -246,7 +246,8 @@ export function processPostContent(content: string): string {
     processedContent = processedContent.replace(
       /https:\/\/wordpress\.codemash\.dev\/wp-content\/uploads\/([^"'\s]+)/g,
       (match, path) => {
-        return `${PROXIED_PATH}${path}`;
+        // Use absolute URL with current protocol and host to ensure it works correctly
+        return `${window.location.protocol}//${window.location.host}${PROXIED_PATH}${path}`;
       }
     );
   }
