@@ -54,9 +54,9 @@
         <p class="text-gray-500 text-lg">No blog posts found.</p>
       </div>
     {:else}
-      <div class="bg-white rounded-lg shadow-md overflow-hidden border border-[#b687f2] transition-all duration-500 ease-in-out s-3oGfk5OZ8kfi">
+      <div class="rounded-lg shadow-md overflow-hidden transition-all duration-500 ease-in-out s-3oGfk5OZ8kfi">
         {#each posts as post}
-          <article class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300">
+          <article class="rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300 border border-[#b687f2] mb-6">
             {#if post.featuredImage}
               <div class="relative h-[400px] overflow-hidden">
                 <img 

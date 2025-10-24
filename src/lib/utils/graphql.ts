@@ -203,15 +203,26 @@ export function clearAllCache(): void {
 const WORDPRESS_URL = 'https://wordpress.codemash.dev/wp-content/uploads/';
 const PROXIED_PATH = '/wp-media/';
 
+// Check if we're in a production environment by looking at the current hostname
+function isProductionEnvironment(): boolean {
+  // Check if we're running in a browser environment
+  if (typeof window === 'undefined') {
+    return false; // SSR or build time
+  }
+  
+  // Check if current hostname matches production domains
+  const currentHost = window.location.hostname;
+  return currentHost === 'amga.co.uk' || currentHost === 'www.amga.co.uk';
+}
+
 export function getProxiedImageUrl(originalUrl: string): string {
   // If the URL is already from our domain or doesn't match WordPress pattern, return as-is
   if (!originalUrl || !originalUrl.includes(WORDPRESS_URL)) {
     return originalUrl;
   }
   
-  // During development, keep the original WordPress URL
-  // The proxied URLs only work in production with Traefik
-  if (import.meta.env.DEV || import.meta.env.SSR) {
+  // Only use proxied URLs in production environment
+  if (!isProductionEnvironment()) {
     return originalUrl;
   }
   
@@ -219,7 +230,7 @@ export function getProxiedImageUrl(originalUrl: string): string {
   const relativePath = originalUrl.replace(WORDPRESS_URL, '');
   
   // Build the new proxied URL (will be handled by Traefik)
-  // Note: We use relative path since the domain will be handled by the browser
+  // Use absolute path to ensure it works correctly in production
   return `${PROXIED_PATH}${relativePath}`;
 }
 
@@ -230,8 +241,8 @@ export function processPostContent(content: string): string {
   // Process images in the content to ensure they display correctly
   let processedContent = content;
   
-  // Transform WordPress image URLs to proxied URLs (only in production client-side)
-  if (!import.meta.env.DEV && !import.meta.env.SSR) {
+  // Transform WordPress image URLs to proxied URLs (only in production environment)
+  if (isProductionEnvironment()) {
     processedContent = processedContent.replace(
       /https:\/\/wordpress\.codemash\.dev\/wp-content\/uploads\/([^"'\s]+)/g,
       (match, path) => {
