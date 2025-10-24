@@ -209,9 +209,9 @@ export function getProxiedImageUrl(originalUrl: string): string {
     return originalUrl;
   }
   
-  // During prerendering, keep the original URL to avoid 404 errors
-  // The proxied URLs will work in production with Traefik
-  if (import.meta.env.SSR) {
+  // During development, keep the original WordPress URL
+  // The proxied URLs only work in production with Traefik
+  if (import.meta.env.DEV || import.meta.env.SSR) {
     return originalUrl;
   }
   
@@ -230,8 +230,8 @@ export function processPostContent(content: string): string {
   // Process images in the content to ensure they display correctly
   let processedContent = content;
   
-  // Transform WordPress image URLs to proxied URLs (only in client-side)
-  if (!import.meta.env.SSR) {
+  // Transform WordPress image URLs to proxied URLs (only in production client-side)
+  if (!import.meta.env.DEV && !import.meta.env.SSR) {
     processedContent = processedContent.replace(
       /https:\/\/wordpress\.codemash\.dev\/wp-content\/uploads\/([^"'\s]+)/g,
       (match, path) => {
