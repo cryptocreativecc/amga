@@ -2,7 +2,7 @@
   import type { PageData } from './$types';
   import { error } from '@sveltejs/kit';
   import Breadcrumb from '$lib/components/Breadcrumb.svelte';
-  import { processPostContent } from '$lib/utils/graphql';
+  import { processPostContent, getProxiedImageUrl } from '$lib/utils/graphql';
 
   export let data: PageData;
   
@@ -18,7 +18,7 @@
   <title>{post.title} - AMGA Blog</title>
   <meta name="description" content={post.excerpt || `Read ${post.title} on AMGA's blog`} />
   {#if post.featuredImage}
-    <meta property="og:image" content={post.featuredImage.node.sourceUrl} />
+    <meta property="og:image" content={getProxiedImageUrl(post.featuredImage.node.sourceUrl)} />
   {/if}
 </svelte:head>
 
@@ -34,7 +34,7 @@
     {#if post.featuredImage}
       <div class="relative mb-8 rounded-2xl overflow-hidden shadow-lg">
         <img 
-          src={post.featuredImage.node.sourceUrl} 
+          src={getProxiedImageUrl(post.featuredImage.node.sourceUrl)} 
           alt={post.featuredImage.node.altText || post.title}
           class="w-full h-64 md:h-96 object-cover"
         />

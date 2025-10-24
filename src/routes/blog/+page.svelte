@@ -1,6 +1,6 @@
 <script lang="ts">
   import { onMount } from 'svelte';
-  import { getPosts, type Post } from '$lib/utils/graphql';
+  import { getPosts, type Post, getProxiedImageUrl } from '$lib/utils/graphql';
   import Breadcrumb from '$lib/components/Breadcrumb.svelte';
 
   let posts: Post[] = [];
@@ -60,7 +60,7 @@
             {#if post.featuredImage}
               <div class="relative h-[400px] overflow-hidden">
                 <img 
-                  src={post.featuredImage.node.sourceUrl} 
+                  src={getProxiedImageUrl(post.featuredImage.node.sourceUrl)} 
                   alt={post.featuredImage.node.altText || post.title}
                   class="w-full h-full object-cover"
                 />

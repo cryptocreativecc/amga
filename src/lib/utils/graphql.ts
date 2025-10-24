@@ -199,12 +199,46 @@ export function clearAllCache(): void {
   graphqlCache.clear();
 }
 
+// URL transformation for WordPress image proxying
+const WORDPRESS_URL = 'https://wordpress.codemash.dev/wp-content/uploads/';
+const PROXIED_PATH = '/wp-media/';
+
+export function getProxiedImageUrl(originalUrl: string): string {
+  // If the URL is already from our domain or doesn't match WordPress pattern, return as-is
+  if (!originalUrl || !originalUrl.includes(WORDPRESS_URL)) {
+    return originalUrl;
+  }
+  
+  // During prerendering, keep the original URL to avoid 404 errors
+  // The proxied URLs will work in production with Traefik
+  if (import.meta.env.SSR) {
+    return originalUrl;
+  }
+  
+  // Strip the WordPress URL prefix to get the relative path
+  const relativePath = originalUrl.replace(WORDPRESS_URL, '');
+  
+  // Build the new proxied URL (will be handled by Traefik)
+  // Note: We use relative path since the domain will be handled by the browser
+  return `${PROXIED_PATH}${relativePath}`;
+}
+
 // Utility function to process WordPress content and fix image URLs if needed
 export function processPostContent(content: string): string {
   if (!content) return '';
   
   // Process images in the content to ensure they display correctly
   let processedContent = content;
+  
+  // Transform WordPress image URLs to proxied URLs (only in client-side)
+  if (!import.meta.env.SSR) {
+    processedContent = processedContent.replace(
+      /https:\/\/wordpress\.codemash\.dev\/wp-content\/uploads\/([^"'\s]+)/g,
+      (match, path) => {
+        return `${PROXIED_PATH}${path}`;
+      }
+    );
+  }
   
   // Handle WordPress block image styling
   processedContent = processedContent.replace(
