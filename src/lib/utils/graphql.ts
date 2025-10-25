@@ -1,10 +1,29 @@
+// src/lib/utils/graphql.ts
 import { GraphQLClient } from 'graphql-request';
 
-const WORDPRESS_GRAPHQL_URL = 'https://wordpress.codemash.dev/graphql';
+// ----------------------------------------------------------------------
+// 1. CONFIGURATION
+// ----------------------------------------------------------------------
+
+// The new WordPress GraphQL endpoint URL
+const WORDPRESS_GRAPHQL_URL = 'https://media.amga.co.uk/graphql';
+
+// The base URL for WordPress media files, as they come from the GraphQL API
+const WORDPRESS_MEDIA_URL = 'https://media.amga.co.uk/wp-content/uploads/';
+
+// The proxied path on your frontend domain (amga.co.uk) that Traefik will handle
+const PROXIED_PATH = '/wp-media/';
+
+// Your production frontend domain(s)
+const PRODUCTION_HOSTNAMES = ['amga.co.uk', 'www.amga.co.uk'];
+
 
 export const graphqlClient = new GraphQLClient(WORDPRESS_GRAPHQL_URL);
 
-// Cache configuration
+// ----------------------------------------------------------------------
+// 2. CACHE
+// ----------------------------------------------------------------------
+
 interface CacheEntry {
   data: any;
   timestamp: number;
@@ -53,7 +72,10 @@ class GraphQLCache {
 
 export const graphqlCache = new GraphQLCache();
 
-// Types for WordPress GraphQL responses
+// ----------------------------------------------------------------------
+// 3. TYPES
+// ----------------------------------------------------------------------
+
 export interface Category {
   id: string;
   name: string;
@@ -88,7 +110,10 @@ export interface PostResponse {
   post: Post;
 }
 
-// GraphQL queries
+// ----------------------------------------------------------------------
+// 4. GRAPHQL QUERIES (UNCHANGED)
+// ----------------------------------------------------------------------
+
 export const GET_POSTS_QUERY = `
   query GetPosts {
     posts {
@@ -142,7 +167,10 @@ export const GET_POST_BY_SLUG_QUERY = `
   }
 `;
 
-// API functions with caching
+// ----------------------------------------------------------------------
+// 5. API FUNCTIONS (UNCHANGED)
+// ----------------------------------------------------------------------
+
 export async function getPosts(): Promise<Post[]> {
   const cacheKey = 'posts:all';
   
@@ -186,7 +214,7 @@ export async function getPostBySlug(slug: string): Promise<Post | null> {
   }
 }
 
-// Cache management functions
+// Cache management functions (UNCHANGED)
 export function clearPostsCache(): void {
   graphqlCache.delete('posts:all');
 }
@@ -199,11 +227,11 @@ export function clearAllCache(): void {
   graphqlCache.clear();
 }
 
-// URL transformation for WordPress image proxying
-const WORDPRESS_URL = 'https://wordpress.codemash.dev/wp-content/uploads/';
-const PROXIED_PATH = '/wp-media/';
+// ----------------------------------------------------------------------
+// 6. PROXYING LOGIC (UPDATED)
+// ----------------------------------------------------------------------
 
-// Check if we're in a production environment by looking at the current hostname
+// Check if we're in a production environment
 function isProductionEnvironment(): boolean {
   // Check if we're running in a browser environment
   if (typeof window === 'undefined') {
@@ -212,46 +240,62 @@ function isProductionEnvironment(): boolean {
   
   // Check if current hostname matches production domains
   const currentHost = window.location.hostname;
-  return currentHost === 'amga.co.uk' || currentHost === 'www.amga.co.uk';
+  return PRODUCTION_HOSTNAMES.includes(currentHost);
 }
 
+/**
+ * Transforms an absolute WordPress image URL into a proxied URL for the Svelte frontend.
+ * @param originalUrl The full URL from the WordPress API (e.g., https://media.amga.co.uk/wp-content/uploads/...)
+ * @returns The proxied URL (e.g., https://amga.co.uk/wp-media/...) or the original URL if not in production/not a WordPress image.
+ */
 export function getProxiedImageUrl(originalUrl: string): string {
-  // If the URL is already from our domain or doesn't match WordPress pattern, return as-is
-  if (!originalUrl || !originalUrl.includes(WORDPRESS_URL)) {
+  if (!originalUrl || !originalUrl.startsWith(WORDPRESS_MEDIA_URL)) {
     return originalUrl;
   }
   
-  // Only use proxied URLs in production environment
+  // Only use proxied URLs in the production environment
   if (!isProductionEnvironment()) {
     return originalUrl;
   }
   
   // Strip the WordPress URL prefix to get the relative path
-  const relativePath = originalUrl.replace(WORDPRESS_URL, '');
+  const relativePath = originalUrl.replace(WORDPRESS_MEDIA_URL, '');
   
   // Build the new proxied URL (will be handled by Traefik)
   // Use absolute URL with current protocol and host to ensure it works correctly
+  // This will result in: https://amga.co.uk/wp-media/2025/10/image.jpg
   return `${window.location.protocol}//${window.location.host}${PROXIED_PATH}${relativePath}`;
 }
 
-// Utility function to process WordPress content and fix image URLs if needed
+/**
+ * Utility function to process WordPress content and fix image URLs if needed
+ */
 export function processPostContent(content: string): string {
   if (!content) return '';
   
-  // Process images in the content to ensure they display correctly
   let processedContent = content;
   
   // Transform WordPress image URLs to proxied URLs (only in production environment)
   if (isProductionEnvironment()) {
+    // Regex to match the full WordPress media URL and capture the path after "uploads/"
+    // Note: The /g flag is crucial for replacing all occurrences
+    const wordpressUrlRegex = new RegExp(
+        WORDPRESS_MEDIA_URL.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '([^"\'\\s]+)', 'g'
+    );
+
     processedContent = processedContent.replace(
-      /https:\/\/wordpress\.codemash\.dev\/wp-content\/uploads\/([^"'\s]+)/g,
+      wordpressUrlRegex,
       (match, path) => {
-        // Use absolute URL with current protocol and host to ensure it works correctly
+        // Build the new proxied URL using the current frontend host
         return `${window.location.protocol}//${window.location.host}${PROXIED_PATH}${path}`;
       }
     );
   }
   
+  // ----------------------------------------------------------------------
+  // REMAINDER OF PROCESSING LOGIC (STYLES/CLASSES) IS UNCHANGED
+  // ----------------------------------------------------------------------
+
   // Handle WordPress block image styling
   processedContent = processedContent.replace(
     /<figure class="([^"]*wp-block-image[^"]*)"([^>]*)>([\s\S]*?)<\/figure>/g,
