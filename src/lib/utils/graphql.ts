@@ -231,70 +231,33 @@ export function clearAllCache(): void {
 }
 
 // ----------------------------------------------------------------------
-// 6. PROXYING LOGIC (UPDATED)
+// 6. IMAGE URL HANDLING (SIMPLIFIED - NO PROXYING)
 // ----------------------------------------------------------------------
 
-// Check if we're in a production environment
-function isProductionEnvironment(): boolean {
-  // Check if we're running in a browser environment
-  if (typeof window === 'undefined') {
-    // SSR or build time - use environment variable
-    return false; // Default to false for SSR to avoid proxying during build
-  }
-  
-  // Client-side: check if current hostname matches production domains
-  const currentHost = window.location.hostname;
-  return PRODUCTION_HOSTNAMES.includes(currentHost);
-}
-
 /**
- * Transforms an absolute WordPress image URL into a proxied URL for the Svelte frontend.
+ * Returns the original WordPress image URL without any proxying.
  * @param originalUrl The full URL from the WordPress API (e.g., https://media.amga.co.uk/wp-content/uploads/...)
- * @returns The proxied URL (e.g., https://amga.co.uk/wp-media/...) or the original URL if not in production/not a WordPress image.
+ * @returns The original WordPress URL unchanged.
  */
 export function getProxiedImageUrl(originalUrl: string): string {
-  if (!originalUrl || !originalUrl.startsWith(WORDPRESS_MEDIA_URL)) {
-    return originalUrl;
-  }
-  
-  // Only use proxied URLs in the production environment
-  if (!isProductionEnvironment()) {
-    return originalUrl;
-  }
-  
-  // Strip the WordPress URL prefix to get the relative path
-  const relativePath = originalUrl.replace(WORDPRESS_MEDIA_URL, '');
-  
-  // Build the new proxied URL (will be handled by Traefik)
-  // Use absolute URL with current protocol and host to ensure it works correctly
-  // This will result in: https://amga.co.uk/wp-media/2025/10/image.jpg
-  return `${window.location.protocol}//${window.location.host}${PROXIED_PATH}${relativePath}`;
+  // Simply return the original URL - no proxying needed
+  return originalUrl;
 }
 
 /**
- * Utility function to process WordPress content and fix image URLs if needed
+ * Utility function to process WordPress content (styling only, no URL changes)
  */
 export function processPostContent(content: string): string {
   if (!content) return '';
   
   let processedContent = content;
   
-  // Transform WordPress image URLs to proxied URLs (only in production environment)
-  if (isProductionEnvironment()) {
-    // Regex to match the full WordPress media URL and capture the path after "uploads/"
-    // Note: The /g flag is crucial for replacing all occurrences
-    const wordpressUrlRegex = new RegExp(
-        WORDPRESS_MEDIA_URL.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '([^"\'\\s]+)', 'g'
-    );
-
-    processedContent = processedContent.replace(
-      wordpressUrlRegex,
-      (match, path) => {
-        // Build the new proxied URL using the current frontend host
-        return `${window.location.protocol}//${window.location.host}${PROXIED_PATH}${path}`;
-      }
-    );
-  }
+  // Note: No URL transformation - all images will use original WordPress URLs
+  // Only apply styling and class modifications below
+  
+  // ----------------------------------------------------------------------
+  // REMAINDER OF PROCESSING LOGIC (STYLES/CLASSES) IS UNCHANGED
+  // ----------------------------------------------------------------------
   
   // ----------------------------------------------------------------------
   // REMAINDER OF PROCESSING LOGIC (STYLES/CLASSES) IS UNCHANGED
