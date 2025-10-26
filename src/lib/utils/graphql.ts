@@ -238,10 +238,11 @@ export function clearAllCache(): void {
 function isProductionEnvironment(): boolean {
   // Check if we're running in a browser environment
   if (typeof window === 'undefined') {
-    return false; // SSR or build time
+    // SSR or build time - use environment variable
+    return false; // Default to false for SSR to avoid proxying during build
   }
   
-  // Check if current hostname matches production domains
+  // Client-side: check if current hostname matches production domains
   const currentHost = window.location.hostname;
   return PRODUCTION_HOSTNAMES.includes(currentHost);
 }

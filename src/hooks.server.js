@@ -11,7 +11,7 @@ export async function handle({ event, resolve }) {
 			style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com;
 			font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com;
 			img-src 'self' data: https: https://media.amga.co.uk;
-			connect-src 'self' https://www.google-analytics.com https://region1.google-analytics.com https://wordpress.codemash.dev https://unpkg.com https://media.amga.co.uk;
+			connect-src 'self' https://www.google-analytics.com https://region1.google-analytics.com https://unpkg.com https://media.amga.co.uk https://www.media.amga.co.uk;
 			frame-src 'none';
 			object-src 'none';
 			base-uri 'self';
