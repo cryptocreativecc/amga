@@ -1,8 +1,10 @@
 <script lang="ts">
   import type { PageData } from './$types';
   import { error } from '@sveltejs/kit';
+  import { onMount } from 'svelte';
   import Breadcrumb from '$lib/components/Breadcrumb.svelte';
   import { processPostContent, getProxiedImageUrl } from '$lib/utils/graphql';
+  import { trackGAEvent, isDownloadLink, getFileName, isMediaSubdomain } from '$lib/utils/analytics';
 
   export let data: PageData;
   
@@ -12,6 +14,32 @@
 
   const { post } = data;
   const processedContent = processPostContent(post.content);
+
+  onMount(() => {
+    // Select all links within the article content
+    const article = document.querySelector('article');
+    if (article) {
+      const links = article.querySelectorAll('a');
+      links.forEach(link => {
+        const href = link.getAttribute('href');
+        if (href && isMediaSubdomain(href) && isDownloadLink(href)) {
+          link.addEventListener('click', (event) => {
+            // Send the event to your analytics platform
+            trackGAEvent('file_download', {
+              file_name: getFileName(href),
+              file_url: href,
+              page_title: document.title,
+              post_title: post.title,
+              post_slug: post.slug,
+              timestamp: new Date().toISOString()
+            });
+            // Optional: The 'download' attribute handles the download, but you can
+            // add a small delay here if necessary to ensure the event fires before navigation.
+          });
+        }
+      });
+    }
+  });
 </script>
 
 <svelte:head>
