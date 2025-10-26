@@ -58,11 +58,11 @@
         {#each posts as post}
           <article class="rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300 border border-[#b687f2] mb-6">
             {#if post.featuredImage}
-              <div class="relative h-[400px] overflow-hidden">
+              <div class="relative h-[400px] overflow-hidden group">
                 <img 
                   src={getProxiedImageUrl(post.featuredImage.node.sourceUrl)} 
                   alt={post.featuredImage.node.altText || post.title}
-                  class="w-full h-full object-cover"
+                  class="w-full h-full object-cover transition-transform duration-500 ease-in-out group-hover:scale-105"
                 />
                 
                 <!-- Date overlay - top right -->

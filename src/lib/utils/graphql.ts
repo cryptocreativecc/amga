@@ -18,7 +18,10 @@ const PROXIED_PATH = '/wp-media/';
 const PRODUCTION_HOSTNAMES = ['amga.co.uk', 'www.amga.co.uk'];
 
 
-export const graphqlClient = new GraphQLClient(WORDPRESS_GRAPHQL_URL);
+export const graphqlClient = new GraphQLClient(WORDPRESS_GRAPHQL_URL, {
+  credentials: 'omit', // Don't send cookies with cross-origin requests
+  mode: 'cors', // Explicitly set CORS mode
+});
 
 // ----------------------------------------------------------------------
 // 2. CACHE
@@ -356,6 +359,19 @@ export function processPostContent(content: string): string {
         return `<img${attributes} style="max-width: 100%; height: auto;">`;
       }
       return match;
+    }
+  );
+  
+  // Handle WordPress button blocks with custom styling
+  processedContent = processedContent.replace(
+    /<a class="([^"]*wp-block-button[^"]*)"([^>]*)>([\s\S]*?)<\/a>/g,
+    (match, classes, attributes, innerContent) => {
+      // Add our custom button styling
+      let newClasses = classes;
+      if (!newClasses.includes('amga-button')) {
+        newClasses += ' amga-button';
+      }
+      return `<a class="${newClasses}"${attributes}>${innerContent}</a>`;
     }
   );
   

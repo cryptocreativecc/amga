@@ -32,11 +32,11 @@
 
     <!-- Featured Image -->
     {#if post.featuredImage}
-      <div class="relative mb-8 rounded-2xl overflow-hidden shadow-lg">
+      <div class="relative mb-8 rounded-2xl overflow-hidden shadow-lg group">
         <img 
           src={getProxiedImageUrl(post.featuredImage.node.sourceUrl)} 
           alt={post.featuredImage.node.altText || post.title}
-          class="w-full h-64 md:h-96 object-cover"
+          class="w-full h-64 md:h-96 object-cover transition-transform duration-500 ease-in-out group-hover:scale-105"
         />
         
         <!-- Date overlay - top right -->
@@ -201,6 +201,13 @@
         .prose img {
           border-radius: 0.5rem !important;
           box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06) !important;
+          transition: transform 0.5s ease !important;
+          overflow: hidden !important;
+        }
+        
+        /* Contained zoom-in animation on hover for all images */
+        .prose img:hover {
+          transform: scale(1.05) !important;
         }
         
         /* Image alignment styles */
@@ -230,6 +237,35 @@
           content: "";
           display: table;
           clear: both;
+        }
+        
+        /* WordPress button block styling */
+        .prose .amga-button {
+          display: inline-block;
+          background-color: #b687f2 !important;
+          color: #191923 !important;
+          padding: 0.75rem 1.5rem !important;
+          border-radius: 0.5rem !important;
+          text-decoration: none !important;
+          font-weight: 600 !important;
+          transition: all 0.3s ease !important;
+          transform: translateY(0) !important;
+          box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06) !important;
+        }
+        
+        .prose .amga-button:hover {
+          transform: translateY(-2px) !important;
+          box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05) !important;
+          background-color: #a375e8 !important;
+        }
+        
+        /* WordPress button container styling */
+        .prose .wp-block-buttons {
+          margin: 1.5rem 0 !important;
+        }
+        
+        .prose .wp-block-button {
+          margin: 0.5rem 0.5rem 0.5rem 0 !important;
         }
         
         /* WordPress-style figure captions */
