@@ -1,0 +1,23 @@
+# Security Policy
+
+Contact: contact@amga.co.uk
+Expires: 2026-12-31T23:59:59.000Z
+
+## Preferred Reporting Methods
+- Email: contact@amga.co.uk (preferred)
+- Do not use public issue trackers for security reports
+
+## Scope
+This security.txt applies to all services and applications under the amga.co.uk domain.
+
+## Response Time
+We aim to respond to all security reports within 48 hours and provide regular updates on the status of reported vulnerabilities.
+
+## Safe Harbor
+We consider security research conducted in accordance with this policy to be authorized. We will not initiate legal action against security researchers for security research activities that follow this policy.
+
+## Disclosure Policy
+We follow coordinated vulnerability disclosure practices. Please allow us reasonable time to address vulnerabilities before public disclosure.
+
+## Acknowledgments
+We maintain a security acknowledgments page to recognise security researchers who help keep our users safe.
