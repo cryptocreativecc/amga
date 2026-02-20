@@ -8,6 +8,10 @@
   let isLoading = true;
   let error = null;
   let showExercises = false; // State to control dropdown visibility
+
+  let books = [];
+  let booksLoading = true;
+  let booksError = null;
   
   // Function to fetch workouts from API via server endpoint
   async function fetchWorkouts() {
@@ -132,8 +136,24 @@
     }
   }
 
+  async function fetchBooks() {
+    try {
+      booksLoading = true;
+      const response = await fetch('/api/books');
+      if (!response.ok) throw new Error(`Failed to fetch books: ${response.status}`);
+      const data = await response.json();
+      books = data.books || [];
+    } catch (err) {
+      booksError = err.message;
+      console.error('Error fetching books:', err);
+    } finally {
+      booksLoading = false;
+    }
+  }
+
   onMount(() => {
     fetchWorkouts();
+    fetchBooks();
   });
 </script>
 
@@ -342,54 +362,63 @@
         <p class="text-lg md:text-lg w-full mb-8">
           I love to read novels, non-fiction and comics and graphic novels. Reading helps me explore different perspectives, learn new things, and escape into captivating stories. Whether it's diving into complex fiction, learning from insightful non-fiction, or enjoying the visual storytelling of comics and graphic novels, I always have something interesting on my reading list.
         </p>
-        
-        <!-- Book/Comic Covers Section -->
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
-          <!-- Cover 1 - The Gulag Archipelago -->
-          <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300">
-            <div class="aspect-[3/4] bg-gray-100 flex items-center justify-center">
-              <img 
-                src="/the-gulag-archipelago.png" 
-                alt="The Gulag Archipelago" 
-                class="w-full h-full object-cover"
-              />
-            </div>
-            <div class="p-4 text-center">
-              <h3 class="font-semibold text-gray-800">The Gulag Archipelago</h3>
-              <p class="text-sm text-gray-600 mt-1">Aleksandr Solzhenitsyn</p>
-            </div>
-          </div>
-          
-          <!-- Cover 2 - The Strange Case of Dr Jekyll and Mr Hyde -->
-          <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300">
-            <div class="aspect-[3/4] bg-gray-100 flex items-center justify-center">
-              <img 
-                src="/the-strange-case-of-dr-jekyll-and-mr-hyde.png" 
-                alt="The Strange Case of Dr Jekyll and Mr Hyde" 
-                class="w-full h-full object-cover"
-              />
-            </div>
-            <div class="p-4 text-center">
-              <h3 class="font-semibold text-gray-800">Dr Jekyll and Mr Hyde</h3>
-              <p class="text-sm text-gray-600 mt-1">Robert Louis Stevenson</p>
-            </div>
-          </div>
-          
-          <!-- Cover 3 - Batman: Dark Patterns -->
-          <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300">
-            <div class="aspect-[3/4] bg-gray-100 flex items-center justify-center">
-              <img 
-                src="/batman-dark-patterns.png" 
-                alt="Batman: Dark Patterns" 
-                class="w-full h-full object-cover"
-              />
-            </div>
-            <div class="p-4 text-center">
-              <h3 class="font-semibold text-gray-800">Batman: Dark Patterns</h3>
-              <p class="text-sm text-gray-600 mt-1">Graphic Novel</p>
-            </div>
-          </div>
+
+        <div class="live-indicator">
+          <div class="pulse-circle pulse-circle-purple"></div>
+          <span>Live from Kavita</span>
         </div>
+
+        {#if booksLoading}
+          <div class="flex justify-center items-center h-40">
+            <div class="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-purple-500"></div>
+          </div>
+        {:else if booksError}
+          <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+            <strong class="font-bold">Error!</strong>
+            <span class="block sm:inline"> {booksError}</span>
+          </div>
+        {:else if books.length === 0}
+          <p class="text-gray-500 text-center py-4">Nothing on deck right now.</p>
+        {:else}
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
+            {#each books as book}
+              <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300">
+                <div class="aspect-[3/4] bg-gray-100 flex items-center justify-center">
+                  <img
+                    src={book.coverUrl}
+                    alt={book.title}
+                    class="w-full h-full object-cover"
+                  />
+                </div>
+                <div class="p-4">
+                  <h3 class="font-semibold text-gray-800 text-center">{book.title}</h3>
+                  {#if book.writers.length > 0}
+                    <p class="text-sm text-gray-600 mt-1 text-center">{book.writers.join(', ')}</p>
+                  {/if}
+
+                  <!-- Progress Bar -->
+                  <div class="mt-3">
+                    <div class="flex justify-between text-xs text-gray-500 mb-1">
+                      <span>{book.pagesRead} / {book.pages} pages</span>
+                      <span>{book.progress}%</span>
+                    </div>
+                    <div class="w-full bg-gray-200 rounded-full h-2">
+                      <div
+                        class="bg-gradient-to-r from-purple-500 to-purple-700 h-2 rounded-full transition-all duration-500"
+                        style="width: {book.progress}%"
+                      ></div>
+                    </div>
+                  </div>
+
+                  <!-- Summary -->
+                  {#if book.summary}
+                    <p class="text-xs text-gray-500 mt-3 line-clamp-3">{book.summary}</p>
+                  {/if}
+                </div>
+              </div>
+            {/each}
+          </div>
+        {/if}
       </div>
     </div>
   </div>
@@ -460,5 +489,29 @@
     100% {
       box-shadow: 0 0 0 0 rgba(46, 164, 79, 0);
     }
+  }
+
+  .pulse-circle-purple {
+    background-color: #b687f2;
+    animation: pulse-purple 2s infinite;
+  }
+
+  @keyframes pulse-purple {
+    0% {
+      box-shadow: 0 0 0 0 rgba(182, 135, 242, 0.7);
+    }
+    70% {
+      box-shadow: 0 0 0 10px rgba(182, 135, 242, 0);
+    }
+    100% {
+      box-shadow: 0 0 0 0 rgba(182, 135, 242, 0);
+    }
+  }
+
+  .line-clamp-3 {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
   }
 </style>
